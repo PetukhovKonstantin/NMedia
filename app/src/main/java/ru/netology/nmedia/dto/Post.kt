@@ -1,7 +1,5 @@
 package ru.netology.nmedia.dto
 
-import kotlin.math.roundToInt
-
 data class Post (
     val id: Int,
     val author: String,
