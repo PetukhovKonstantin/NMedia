@@ -3,6 +3,8 @@ package ru.netology.nmedia.adapters
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
@@ -14,16 +16,7 @@ interface PostActionListener {
     fun onShare(post: Post)
 }
 
-class PostsAdapter(
-    private val postAction: PostActionListener
-) : RecyclerView.Adapter<PostViewHolder>() {
-    var list = emptyList<Post>()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
-
+class PostsAdapter(private val postAction: PostActionListener) : ListAdapter<Post, PostViewHolder>(PostDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val view = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
@@ -31,16 +24,11 @@ class PostsAdapter(
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(getItem(position))
     }
-
-    override fun getItemCount(): Int = list.size
 }
 
-class PostViewHolder(
-    private val binding: CardPostBinding,
-    private val postAction: PostActionListener,
-) : RecyclerView.ViewHolder(binding.root) {
+class PostViewHolder(private val binding: CardPostBinding, private val postAction: PostActionListener) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         with(binding){
             author.text = post.author
@@ -57,4 +45,9 @@ class PostViewHolder(
             }
         }
     }
+}
+
+object PostDiffCallback : DiffUtil.ItemCallback<Post>() {
+    override fun areItemsTheSame(oldItem: Post, newItem: Post) = oldItem.id == newItem.id
+    override fun areContentsTheSame(oldItem: Post, newItem: Post) = oldItem == newItem
 }
