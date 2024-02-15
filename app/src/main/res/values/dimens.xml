@@ -4,4 +4,7 @@
     <dimen name="like_share_views_size">24dp</dimen>
     <dimen name="common_spacing">16dp</dimen>
     <dimen name="small_spacing">6dp</dimen>
+    <dimen name="save_post_size">48dp</dimen>
+    <dimen name="edit_topic_size">48dp</dimen>
+    <dimen name="edit_post_size">25dp</dimen>
 </resources>

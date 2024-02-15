@@ -25,7 +25,7 @@
         android:maxLines="1"
         android:text="@string/author"
         app:layout_constraintBottom_toTopOf="@+id/published"
-        app:layout_constraintEnd_toStartOf="@id/more"
+        app:layout_constraintEnd_toStartOf="@id/menu"
         app:layout_constraintStart_toEndOf="@+id/avatar"
         app:layout_constraintTop_toTopOf="@+id/avatar" />
 
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/author" />
 
     <ImageButton
-        android:id="@+id/more"
+        android:id="@+id/menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/common_spacing"
@@ -49,8 +49,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/author"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_more_vert_24"
-        tools:ignore="TouchTargetSizeCheck" />
+        app:srcCompat="@drawable/ic_more_vert_24" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -65,9 +64,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/common_spacing"
-        android:text="@string/content"
-        android:linksClickable="true"
         android:autoLink="web"
+        android:linksClickable="true"
+        android:text="@string/content"
         android:textColorLink="@android:color/holo_blue_bright"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -85,11 +84,11 @@
         android:id="@+id/like"
         android:layout_width="@dimen/like_share_views_size"
         android:layout_height="@dimen/like_share_views_size"
+        android:layout_marginTop="@dimen/common_spacing"
+        android:importantForAccessibility="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier2"
-        app:srcCompat="@drawable/ic_like"
-        android:layout_marginTop="@dimen/common_spacing"
-        android:importantForAccessibility="no" />
+        app:srcCompat="@drawable/ic_like" />
 
     <TextView
         android:id="@+id/likeCount"
@@ -106,19 +105,19 @@
         android:id="@+id/share"
         android:layout_width="@dimen/like_share_views_size"
         android:layout_height="@dimen/like_share_views_size"
+        android:layout_marginStart="@dimen/common_spacing"
+        android:layout_marginTop="@dimen/common_spacing"
+        android:importantForAccessibility="no"
         app:layout_constraintStart_toEndOf="@id/likeCount"
         app:layout_constraintTop_toBottomOf="@id/barrier2"
-        app:srcCompat="@drawable/ic_share"
-        android:layout_marginTop="@dimen/common_spacing"
-        android:layout_marginStart="@dimen/common_spacing"
-        android:importantForAccessibility="no"/>
+        app:srcCompat="@drawable/ic_share" />
 
     <TextView
         android:id="@+id/shareCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/shareCount"
         android:layout_marginStart="@dimen/small_spacing"
+        android:text="@string/shareCount"
         app:layout_constraintBottom_toBottomOf="@+id/share"
         app:layout_constraintStart_toEndOf="@id/share"
         app:layout_constraintTop_toTopOf="@+id/share" />
@@ -127,9 +126,9 @@
         android:id="@+id/views"
         android:layout_width="@dimen/like_share_views_size"
         android:layout_height="@dimen/like_share_views_size"
-        android:importantForAccessibility="no"
-        android:layout_marginEnd="@dimen/small_spacing"
         android:layout_marginTop="@dimen/common_spacing"
+        android:layout_marginEnd="@dimen/small_spacing"
+        android:importantForAccessibility="no"
         app:layout_constraintEnd_toStartOf="@id/viewsCount"
         app:layout_constraintTop_toBottomOf="@id/barrier2"
         app:srcCompat="@drawable/ic_views" />
