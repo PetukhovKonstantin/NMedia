@@ -1,5 +1,4 @@
-package ru.netology.nmedia.dto
-import kotlin.math.roundToInt
+package ru.netology.nmedia.services
 
 object PostService {
     fun ConvertCountToShortString(count: Int): String {
