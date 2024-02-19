@@ -10,4 +10,8 @@
     <string name="error_empty_content">Содержание не может быть пустым</string>
     <string name="menu_edit">Изменить</string>
     <string name="edit_topic">Редактировать содержание</string>
+    <string name="ic_like_description">Лайки</string>
+    <string name="ic_share_description">Поделиться</string>
+    <string name="ic_views_description">Просмотры</string>
+    <string name="ic_more_description">Действия с постом</string>
 </resources>

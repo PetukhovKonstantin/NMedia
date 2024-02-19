@@ -12,4 +12,8 @@
     <string name="error_empty_content">Content can\'t be empty</string>
     <string name="menu_edit">Edit</string>
     <string name="edit_topic">Edit content</string>
+    <string name="ic_like_description">Like</string>
+    <string name="ic_share_description">Share</string>
+    <string name="ic_views_description">Views</string>
+    <string name="ic_more_description">Options post</string>
 </resources>
