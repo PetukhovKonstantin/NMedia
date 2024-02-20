@@ -1,18 +1,15 @@
 package ru.netology.nmedia.activities
 
-import android.opengl.Visibility
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapters.PostActionListener
 import ru.netology.nmedia.adapters.PostsAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.dto.Post
-import ru.netology.nmedia.utils.AndroidUtils
-import ru.netology.nmedia.utils.AndroidUtils.focusAndShowKeyboard
 import ru.netology.nmedia.viewmodels.PostViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -22,11 +19,36 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val viewModel: PostViewModel by viewModels()
+
+        val newPostLauncher = registerForActivityResult(NewPostContract) { result ->
+            result ?: return@registerForActivityResult
+            viewModel.saveAndChangeContent(result)
+        }
+
         val adapter = PostsAdapter(object : PostActionListener {
             override fun onLike(post: Post) = viewModel.likeById(post.id)
-            override fun onShare(post: Post) = viewModel.shareById(post.id)
+
+            override fun onShare(post: Post) {
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, post.content)
+                    type = "text/plain"
+                }
+                val shareIntent =
+                    Intent.createChooser(intent, getString(R.string.chooser_share_post))
+                startActivity(shareIntent)
+                viewModel.shareById(post.id)
+            }
+
             override fun onRemove(post: Post) = viewModel.removeById(post.id)
+
             override fun onEdit(post: Post) = viewModel.edit(post)
+
+            override fun onPlayVideo(post: Post) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+                val videoIntent = Intent.createChooser(intent, getString(R.string.play_video))
+                startActivity(videoIntent)
+            }
         })
 
         viewModel.data.observe(this) { posts ->
@@ -40,34 +62,14 @@ class MainActivity : AppCompatActivity() {
 
         binding.list.adapter = adapter
 
-        viewModel.edited.observe(this) {post ->
+        viewModel.edited.observe(this) { post ->
             if (post.id != 0L) {
-                binding.group3.visibility = View.VISIBLE
-                binding.editPreviewContent.setText(post.content)
-                binding.editContent.setText(post.content)
-                binding.editContent.focusAndShowKeyboard()
+                newPostLauncher.launch(post.content, null)
             }
         }
 
-        binding.savePost.setOnClickListener {
-            val text = binding.editContent.text.toString()
-            if (text.isEmpty()) {
-                Toast.makeText(this, R.string.error_empty_content, Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            viewModel.saveAndChangeContent(text)
-            binding.group3.visibility = View.GONE
-            binding.editContent.setText("")
-            binding.editContent.clearFocus()
-            AndroidUtils.hideKeyboard(it)
-        }
-
-        binding.cancelEditContent.setOnClickListener {
-            binding.group3.visibility = View.GONE
-            viewModel.cancelEdit()
-            binding.editContent.setText("")
-            binding.editContent.clearFocus()
-            AndroidUtils.hideKeyboard(it)
+        binding.addPost.setOnClickListener {
+            newPostLauncher.launch(null, null)
         }
     }
 }

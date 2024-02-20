@@ -16,4 +16,8 @@
     <string name="ic_share_description">Share</string>
     <string name="ic_views_description">Views</string>
     <string name="ic_more_description">Options post</string>
+    <string name="chooser_share_post">Share</string>
+    <string name="play_video">Play video</string>
+    <string name="add_post">Add post</string>
+    <string name="preview_video">Preview video</string>
 </resources>
