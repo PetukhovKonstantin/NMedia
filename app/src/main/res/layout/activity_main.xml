@@ -9,20 +9,29 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/barrier4"
-        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/card_post" />
 
-    <androidx.constraintlayout.widget.Barrier
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/add_post"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="@dimen/common_spacing"
+        app:srcCompat="@drawable/ic_add"
+        tools:ignore="MissingConstraints" />
+
+    <!--<androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
         app:constraint_referenced_ids="edit_topic" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/edit_topic"
         android:layout_width="0dp"
         android:layout_height="@dimen/edit_topic_size"
@@ -128,6 +137,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier3"
-        app:srcCompat="@android:drawable/ic_menu_send" />
+        app:srcCompat="@android:drawable/ic_menu_send" /> -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

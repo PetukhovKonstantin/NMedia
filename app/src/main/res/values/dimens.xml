@@ -8,4 +8,6 @@
     <dimen name="edit_topic_size">48dp</dimen>
     <dimen name="edit_post_size">24dp</dimen>
     <dimen name="icon_button_min_size">8dp</dimen>
+    <dimen name="icon_video_height">200dp</dimen>
+    <dimen name="icon_play_size">48dp</dimen>
 </resources>
