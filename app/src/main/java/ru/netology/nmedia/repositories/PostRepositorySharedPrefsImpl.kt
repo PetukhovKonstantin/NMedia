@@ -60,10 +60,6 @@ class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
         }
     }
 
-    override fun openPostById(id: Long) {
-        posts = posts.filter { it.id == id }
-    }
-
     private fun sync() {
         with(prefs.edit()) {
             putString(key, gson.toJson(posts))

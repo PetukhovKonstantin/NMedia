@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.repositories.PostRepository
 import ru.netology.nmedia.repositories.PostRepositoryFilesImpl
+import ru.netology.nmedia.repositories.PostRepositoryInMemoryImpl
 
 val empty = Post(
     id = 0,
@@ -37,6 +38,4 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun edit(post: Post) {
         edited.value = post
     }
-
-    fun openPost(id: Long) = repository.openPostById(id)
 }
