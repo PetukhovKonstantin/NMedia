@@ -9,6 +9,7 @@ interface PostRepository {
     fun shareById(id: Long)
     fun removeById(id: Long)
     fun save(post: Post)
+    fun openPostById(id: Long)
 }
 
 class PostRepositoryInMemoryImpl : PostRepository {
@@ -97,6 +98,11 @@ class PostRepositoryInMemoryImpl : PostRepository {
                 if (it.id != post.id) it else it.copy(content = post.content)
             }
         }
+        data.value = posts
+    }
+
+    override fun openPostById(id: Long) {
+        posts = posts.filter { it.id == id }
         data.value = posts
     }
 }

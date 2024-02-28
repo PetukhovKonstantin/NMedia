@@ -18,6 +18,7 @@ interface PostActionListener {
     fun onRemove(post: Post)
     fun onEdit(post: Post)
     fun onPlayVideo(post: Post)
+    fun onOpenPost(post: Post)
 }
 
 class PostsAdapter(private val postAction: PostActionListener) :
@@ -80,6 +81,10 @@ class PostViewHolder(
                 if (!post.video.isNullOrBlank()) {
                     postAction.onPlayVideo(post)
                 }
+            }
+
+            postLayout.setOnClickListener {
+                postAction.onOpenPost(post)
             }
         }
     }

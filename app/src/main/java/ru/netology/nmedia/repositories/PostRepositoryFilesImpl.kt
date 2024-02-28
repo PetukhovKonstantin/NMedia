@@ -64,6 +64,10 @@ class PostRepositoryFilesImpl(private val context: Context) : PostRepository {
         }
     }
 
+    override fun openPostById(id: Long) {
+        posts = posts.filter { it.id == id }
+    }
+
     private fun sync() {
         context.openFileOutput(filename, Context.MODE_PRIVATE).bufferedWriter().use {
             it.write(gson.toJson(posts))
