@@ -55,7 +55,7 @@ class FeedFragment : Fragment() {
             }
 
             override fun onOpenPost(post: Post) {
-                findNavController().navigate(R.id.action_feedFragment_self, Bundle().apply { textArg = post.id.toString() })
+                findNavController().navigate(R.id.action_feedFragment_to_postFragment, Bundle().apply { textArg = post.id.toString() })
             }
         })
 
