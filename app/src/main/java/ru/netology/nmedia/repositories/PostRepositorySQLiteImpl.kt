@@ -1,35 +1,27 @@
 package ru.netology.nmedia.repositories
-import android.content.Context
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Post
 
-class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
-    private var nextId = 1L
-    private var posts = listOf<Post>()
+class PostRepositorySQLiteImpl(
+    private val dao: PostDao
+) : PostRepository {
+    private var posts = emptyList<Post>()
         private set(value) {
             field = value
             data.value = posts
-            sync()
         }
     private val data = MutableLiveData(posts)
 
-    private val gson = Gson()
-    private val prefs = context.getSharedPreferences("repo", Context.MODE_PRIVATE)
-    private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
-    private val key = "posts"
-
     init {
-        prefs.getString(key, null)?.let {
-            posts = gson.fromJson(it, type)
-            nextId = posts.maxOfOrNull { it.id }?.inc() ?: 1
-        }
+        posts = dao.getAll()
     }
 
     override fun getAll(): LiveData<List<Post>> = data
     override fun likeById(id: Long) {
+        dao.likeById(id)
         posts = posts.map {post ->
             if (post.id != id) post else post.copy(
                 likedByMe = !post.likedByMe,
@@ -39,6 +31,7 @@ class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
     }
 
     override fun shareById(id: Long) {
+        dao.shareById(id)
         posts = posts.map {post ->
             if (post.id != id) post else post.copy(
                 shareCount = post.shareCount + 1
@@ -47,31 +40,25 @@ class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
     }
 
     override fun removeById(id: Long) {
+        dao.removeById(id)
         posts = posts.filter { it.id != id }
     }
 
     override fun save(post: Post) {
-        posts = if (post.id == 0L) {
-            listOf(post.copy(id = nextId++, author = "Me", published = "Now")) + posts
+        val id = post.id
+        val saved = dao.save(post)
+        posts = if (id == 0L) {
+            listOf(saved) + posts
         } else {
             posts.map {
-                if (it.id != post.id) it else it.copy(content = post.content)
+                if (it.id != id) it else saved
             }
         }
     }
 
     override fun saveDraft(content: String) {
-        TODO("Not yet implemented")
+        dao.saveDraft(content)
     }
 
-    override fun getDraft(): String? {
-        TODO("Not yet implemented")
-    }
-
-    private fun sync() {
-        with(prefs.edit()) {
-            putString(key, gson.toJson(posts))
-            apply()
-        }
-    }
+    override fun getDraft(): String? = dao.getDraft()
 }

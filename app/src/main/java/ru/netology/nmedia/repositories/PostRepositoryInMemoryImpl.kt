@@ -92,4 +92,12 @@ class PostRepositoryInMemoryImpl : PostRepository {
         }
         data.value = posts
     }
+
+    override fun saveDraft(content: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getDraft(): String? {
+        TODO("Not yet implemented")
+    }
 }

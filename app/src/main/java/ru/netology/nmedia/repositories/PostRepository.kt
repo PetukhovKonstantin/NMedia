@@ -1,4 +1,5 @@
 package ru.netology.nmedia.repositories
+import android.content.Context
 import androidx.lifecycle.LiveData
 import ru.netology.nmedia.dto.Post
 
@@ -8,4 +9,6 @@ interface PostRepository {
     fun shareById(id: Long)
     fun removeById(id: Long)
     fun save(post: Post)
+    fun saveDraft(content: String)
+    fun getDraft(): String?
 }
