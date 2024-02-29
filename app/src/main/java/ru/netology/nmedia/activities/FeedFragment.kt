@@ -80,7 +80,14 @@ class FeedFragment : Fragment() {
         }
 
         binding.addPost.setOnClickListener {
-            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
+            val content = viewModel.getDraft()
+
+            if (content.isNullOrEmpty()) {
+                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
+            } else {
+                println("Content $content")
+                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment, Bundle().apply { textArg = content })
+            }
         }
 
         return binding.root

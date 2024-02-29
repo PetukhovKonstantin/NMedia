@@ -64,6 +64,14 @@ class PostRepositoryFilesImpl(private val context: Context) : PostRepository {
         }
     }
 
+    override fun saveDraft(content: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getDraft(): String? {
+        TODO("Not yet implemented")
+    }
+
     private fun sync() {
         context.openFileOutput(filename, Context.MODE_PRIVATE).bufferedWriter().use {
             it.write(gson.toJson(posts))
