@@ -11,6 +11,7 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.services.PostService
+import ru.netology.nmedia.utils.AndroidUtils.setAllOnClickListener
 
 interface PostActionListener {
     fun onLike(post: Post)
@@ -18,6 +19,7 @@ interface PostActionListener {
     fun onRemove(post: Post)
     fun onEdit(post: Post)
     fun onPlayVideo(post: Post)
+    fun onOpenPost(post: Post)
 }
 
 class PostsAdapter(private val postAction: PostActionListener) :
@@ -76,10 +78,14 @@ class PostViewHolder(
                 }.show()
             }
 
-            video.setOnClickListener {
+            groupVideo.setAllOnClickListener {
                 if (!post.video.isNullOrBlank()) {
                     postAction.onPlayVideo(post)
                 }
+            }
+
+            groupOpenPost.setAllOnClickListener {
+                postAction.onOpenPost(post)
             }
         }
     }

@@ -1,18 +1,19 @@
 package ru.netology.nmedia.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE
 import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
-import ru.netology.nmedia.databinding.ActivityIntentHandlerBinding
+import ru.netology.nmedia.activities.NewPostFragment.Companion.textArg
+import ru.netology.nmedia.databinding.ActivityAppBinding
 
-class IntentHandlerActivity : AppCompatActivity() {
+class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityIntentHandlerBinding.inflate(layoutInflater)
+        val binding = ActivityAppBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         intent?.let {
@@ -28,7 +29,10 @@ class IntentHandlerActivity : AppCompatActivity() {
                     }.show()
                 return@let
             }
-            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+            intent.removeExtra(Intent.EXTRA_TEXT)
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+            val navController = navHostFragment.navController
+            navController.navigate(R.id.action_feedFragment_to_newPostFragment, Bundle().apply { textArg = text })
         }
     }
 }
