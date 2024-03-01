@@ -60,11 +60,11 @@ class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
         }
     }
 
-    override fun saveDraft(content: String) {
+    override fun saveDraft(idUser: Long, content: String) {
         TODO("Not yet implemented")
     }
 
-    override fun getDraft(): String? {
+    override fun getDraft(idUser: Long): String? {
         TODO("Not yet implemented")
     }
 

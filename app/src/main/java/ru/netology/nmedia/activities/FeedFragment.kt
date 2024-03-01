@@ -85,7 +85,6 @@ class FeedFragment : Fragment() {
             if (content.isNullOrEmpty()) {
                 findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
             } else {
-                println("Content $content")
                 findNavController().navigate(R.id.action_feedFragment_to_newPostFragment, Bundle().apply { textArg = content })
             }
         }
