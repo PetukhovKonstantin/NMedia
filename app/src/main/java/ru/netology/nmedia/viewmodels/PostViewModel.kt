@@ -53,7 +53,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun likeById(id: Long)  {
         thread {
-            // Оптимистичная модель
             _data.postValue(
                 _data.value?.copy(posts = _data.value?.posts.orEmpty()
                     .map { post ->
