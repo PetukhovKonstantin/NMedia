@@ -18,4 +18,12 @@
     <string name="play_video">Воспроизвести видео</string>
     <string name="add_post">Добавить пост</string>
     <string name="preview_video">Заставка видео</string>
+    <string name="googleApiCheck">НМедиа не запустится без сервисов Google Play, которые не поддерживаются Вашим устройством</string>
+    <string name="channel_remote_name">Наименование канала</string>
+    <string name="channel_remote_description">Описание канала</string>
+    <string name="notification_user_liked">%1$s поставил лайк посту %2$s</string>
+    <string name="notification_user_new_post">%1$s опубликовал новый пост:</string>
+    <string name="error_loading">Что-то пошло не так. Попробуйте позже</string>
+    <string name="retry_loading">Повторить</string>
+    <string name="empty_posts">Сообщений нет.\\nЕсли вы создадите новое сообщение, оно появится здесь</string>
 </resources>

@@ -6,19 +6,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapters.PostActionListener
 import ru.netology.nmedia.adapters.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.model.FeedModel
 import ru.netology.nmedia.utils.StringArg
 import ru.netology.nmedia.viewmodels.PostViewModel
 
 class FeedFragment : Fragment() {
-    private val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
+    private val viewModel: PostViewModel by activityViewModels()//viewModels(ownerProducer = ::requireParentFragment)
     companion object {
         var Bundle.textArg: String? by StringArg
     }
@@ -41,7 +43,7 @@ class FeedFragment : Fragment() {
                 val shareIntent =
                     Intent.createChooser(intent, getString(R.string.chooser_share_post))
                 startActivity(shareIntent)
-                viewModel.shareById(post.id)
+                //viewModel.shareById(post.id)
             }
 
             override fun onRemove(post: Post) = viewModel.removeById(post.id)
@@ -61,17 +63,14 @@ class FeedFragment : Fragment() {
 
         val postId = if (!arguments?.textArg.isNullOrEmpty()) { arguments?.textArg?.toLongOrNull() ?: 0L } else { 0L }
 
-        viewModel.data.observe(viewLifecycleOwner) { posts ->
-            val isNewPost = adapter.currentList.size < posts.size && adapter.currentList.size > 0
-            val filteredPosts = if (postId != 0L) { posts.filter { it.id == postId } } else { posts }
-            adapter.submitList(filteredPosts) {
-                if (isNewPost) {
-                    binding.list.smoothScrollToPosition(0)
-                }
-            }
-        }
-
         binding.list.adapter = adapter
+        viewModel.data.observe(viewLifecycleOwner) { state ->
+            adapter.submitList(state.posts)
+            binding.progress.isVisible = state.loading
+            binding.swiperefresh.isRefreshing = state.loading
+            binding.errorGroup.isVisible = state.error
+            binding.emptyText.isVisible = state.empty
+        }
 
         viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id != 0L) {
@@ -79,14 +78,23 @@ class FeedFragment : Fragment() {
             }
         }
 
-        binding.addPost.setOnClickListener {
-            val content = viewModel.getDraft()
+        binding.retryButton.setOnClickListener {
+            viewModel.loadPosts()
+        }
 
-            if (content.isNullOrEmpty()) {
-                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
-            } else {
-                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment, Bundle().apply { textArg = content })
-            }
+        binding.addPost.setOnClickListener {
+            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
+//            val content = viewModel.getDraft()
+//
+//            if (content.isNullOrEmpty()) {
+//                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
+//            } else {
+//                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment, Bundle().apply { textArg = content })
+//            }
+        }
+
+        binding.swiperefresh.setOnRefreshListener {
+            viewModel.loadPosts()
         }
 
         return binding.root

@@ -1,8 +1,5 @@
 package ru.netology.nmedia.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.entities.PostEntity
@@ -21,8 +18,11 @@ class PostRepositoryRoomImpl(
         //posts = dao.getAll()
     }
 
-    override fun getAll(): LiveData<List<Post>> = dao.getAll().map {list ->
-        list.map { it.toDto() }
+    override fun getAll(): List<Post> {
+        TODO("Not yet implemented")
+//        LiveData<List<Post>> = dao.getAll().map {list ->
+//            list.map { it.toDto() }
+//        }
     }
     override fun likeById(id: Long) = dao.likeById(id)
 
