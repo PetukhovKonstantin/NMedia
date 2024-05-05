@@ -38,7 +38,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun loadPosts() {
         thread {
-            // Начинаем загрузку
+            // Начинаем загрузку 
             _data.postValue(FeedModel(loading = true))
             try {
                 // Данные успешно получены
