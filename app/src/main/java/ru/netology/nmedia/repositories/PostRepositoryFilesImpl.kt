@@ -1,6 +1,7 @@
 package ru.netology.nmedia.repositories
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -31,15 +32,12 @@ class PostRepositoryFilesImpl(private val context: Context) : PostRepository {
         }
     }
 
-    override fun getAll(): List<Post> {
-        TODO("Not yet implemented")
-        //LiveData<List<Post>> = data
-    }
+    override fun getAll(): LiveData<List<Post>> = data
     override fun likeById(id: Long) {
         posts = posts.map { post ->
             if (post.id != id) post else post.copy(
                 likedByMe = !post.likedByMe,
-                likes = if (post.likedByMe) post.likes - 1 else post.likes + 1
+                likeCount = if (post.likedByMe) post.likeCount - 1 else post.likeCount + 1
             )
         }
     }
