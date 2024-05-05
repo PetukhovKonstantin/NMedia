@@ -45,7 +45,7 @@ class PostViewHolder(
             published.text = post.published
             content.text = post.content
             like.isChecked = post.likedByMe
-            like.setText(post.likes.toString())
+            like.setText(post.likeCount.toString())
             share.setText(PostService.ConvertCountToShortString(post.shareCount))
             groupVideo.visibility = if (post.video.isNullOrEmpty()) View.GONE else View.VISIBLE
 

@@ -24,7 +24,7 @@ data class PostEntity(
             author = post.author,
             content = post.content,
             published = post.published,
-            likeCount = post.likes,
+            likeCount = post.likeCount,
             likedByMe = post.likedByMe,
             shareCount = post.shareCount,
             video = post.video
