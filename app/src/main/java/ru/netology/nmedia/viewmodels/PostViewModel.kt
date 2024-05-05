@@ -2,35 +2,28 @@ package ru.netology.nmedia.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Post
-import ru.netology.nmedia.model.FeedModel
 import ru.netology.nmedia.repositories.PostRepository
-import ru.netology.nmedia.repository.PostRepositoryServerImpl
-import ru.netology.nmedia.utils.SingleLiveEvent
-import java.io.IOException
-import kotlin.concurrent.thread
+import ru.netology.nmedia.repositories.PostRepositoryRoomImpl
 
 val empty = Post(
     id = 0,
     author = "",
     content = "",
     published = "",
-    likes = 0,
+    likeCount = 0,
     likedByMe = false,
     shareCount = 0
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: PostRepository = PostRepositoryServerImpl() //PostRepositoryRoomImpl(AppDb.getInstance(application).postDao) //PostRepositoryFilesImpl(application)
-    private val _data = MutableLiveData(FeedModel())
-    val data: LiveData<FeedModel>
-        get() = _data
+    private val repository: PostRepository =
+        PostRepositoryRoomImpl(AppDb.getInstance(application).postDao) //PostRepositoryFilesImpl(application)
+    val data = repository.getAll()
     val edited = MutableLiveData(empty)
-    private val _postCreated = SingleLiveEvent<Unit>()
-    val postCreated: LiveData<Unit>
-        get() = _postCreated
+
 
     init {
         loadPosts()
@@ -85,29 +78,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
-    fun saveAndChangeContent(content: String) {
-        edited.value?.let {
-            if (content != it.content) {
-                thread {
-                    repository.save(it.copy(content = content))
-                    _postCreated.postValue(Unit)
-                }
-            }
-            edited.value = empty
-        }
-    }
 
-    fun edit(post: Post) {
-        edited.value = post
-    }
-
-    fun saveDraft(content: String) {
-        //thread { repository.saveDraft(0L, content) }
-        TODO("Not yet implemented")
-    }
-
-    fun getDraft(): String?  {
-        //repository.getDraft(0L)
-        TODO("Not yet implemented")
-    }
-}
+    fun likeById(id: Long) = repository.likeById(id)
+    fun shareById(id: Long) = repository.shareById(id)
+    fun removeById(id: Long) = repository.removeById(id)
