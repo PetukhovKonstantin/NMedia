@@ -15,7 +15,6 @@ import ru.netology.nmedia.adapters.PostActionListener
 import ru.netology.nmedia.adapters.PostsAdapter
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
-import ru.netology.nmedia.model.FeedModel
 import ru.netology.nmedia.utils.StringArg
 import ru.netology.nmedia.viewmodels.PostViewModel
 
@@ -79,6 +78,7 @@ class FeedFragment : Fragment() {
         }
 
         binding.retryButton.setOnClickListener {
+            println("Pressed")
             viewModel.loadPosts()
         }
 
