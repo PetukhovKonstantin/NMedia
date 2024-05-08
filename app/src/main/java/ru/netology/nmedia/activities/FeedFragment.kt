@@ -78,7 +78,6 @@ class FeedFragment : Fragment() {
         }
 
         binding.retryButton.setOnClickListener {
-            println("Pressed")
             viewModel.loadPosts()
         }
 

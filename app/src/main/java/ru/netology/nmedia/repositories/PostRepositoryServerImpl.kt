@@ -48,12 +48,12 @@ class PostRepositoryServerImpl : PostRepository {
         client.newCall(request)
             .enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
-                    val body = response.body?.string() ?: throw RuntimeException("body is null")
-                    if (!response.isSuccessful) {
-                        callback.onError(RuntimeException(body))
-                        return
-                    }
                     try {
+                        val body = response.body?.string() ?: throw RuntimeException("body is null")
+                        if (!response.isSuccessful) {
+                            callback.onError(RuntimeException(body))
+                            return
+                        }
                         callback.onSuccess(gson.fromJson(body, typeToken.type))
                     } catch (e: Exception) {
                         callback.onError(e)
@@ -160,11 +160,11 @@ class PostRepositoryServerImpl : PostRepository {
         client.newCall(request)
             .enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
-                    if (!response.isSuccessful) {
-                        callback.onError(RuntimeException())
-                        return
-                    }
                     try {
+                        if (!response.isSuccessful) {
+                            callback.onError(RuntimeException())
+                            return
+                        }
                         callback.onSuccess()
                     } catch (e: Exception) {
                         callback.onError(e)
