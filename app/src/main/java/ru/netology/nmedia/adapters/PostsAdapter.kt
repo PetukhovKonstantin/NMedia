@@ -7,11 +7,17 @@ import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import ru.netology.nmedia.R
+import ru.netology.nmedia.config.AppConfig
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.services.PostService
 import ru.netology.nmedia.utils.AndroidUtils.setAllOnClickListener
+
 
 interface PostActionListener {
     fun onLike(post: Post)
@@ -48,6 +54,24 @@ class PostViewHolder(
             like.setText(post.likes.toString())
             share.setText(PostService.ConvertCountToShortString(post.shareCount))
             groupVideo.visibility = if (post.video.isNullOrEmpty()) View.GONE else View.VISIBLE
+
+            Glide.with(avatar)
+                .load("${AppConfig.BASE_URL}/avatars/${post.authorAvatar}")
+                .placeholder(R.drawable.ic_loading_100dp)
+                .error(R.drawable.ic_error_100dp)
+                .timeout(10_000)
+                .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(R.dimen.avatar_rounded_corners)))
+                .into(avatar)
+
+            imageAttachment.visibility = if (post.attachment?.url.isNullOrEmpty()) View.GONE else View.VISIBLE
+            if (imageAttachment.visibility == View.VISIBLE) {
+                Glide.with(imageAttachment)
+                    .load("${AppConfig.BASE_URL}/images/${post.attachment?.url}")
+                    .placeholder(R.drawable.ic_loading_100dp)
+                    .error(R.drawable.ic_error_100dp)
+                    .timeout(10_000)
+                    .into(imageAttachment)
+            }
 
             like.setOnClickListener {
                 postAction.onLike(post)

@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import ru.netology.nmedia.config.AppConfig
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.repositories.PostRepository
 import java.io.IOException
@@ -23,7 +24,7 @@ class PostRepositoryServerImpl : PostRepository {
     private val typeToken = object : TypeToken<List<Post>>() {}
 
     companion object {
-        private const val BASE_URL = "http://192.168.100.11:9999"
+        private const val BASE_URL = AppConfig.BASE_URL
         private val jsonType = "application/json".toMediaType()
     }
 

@@ -26,63 +26,6 @@ class PostFragment : Fragment() {
 
         val postId = if (!arguments?.textArg.isNullOrEmpty()) { arguments?.textArg?.toLongOrNull() ?: 0L } else { 0L }
 
-//        viewModel.data.observe(viewLifecycleOwner) { posts ->
-//            val post = posts.find { it.id == postId } ?: return@observe
-//            with(binding) {
-//                author.text = post.author
-//                published.text = post.published
-//                content.text = post.content
-//                like.isChecked = post.likedByMe
-//                like.setText(post.likeCount.toString())
-//                share.setText(PostService.ConvertCountToShortString(post.shareCount))
-//                groupVideo.visibility = if (post.video.isNullOrEmpty()) View.GONE else View.VISIBLE
-//
-//                groupVideo.setOnClickListener {
-//                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
-//                    val videoIntent = Intent.createChooser(intent, getString(R.string.play_video))
-//                    startActivity(videoIntent)
-//                }
-//
-//                like.setOnClickListener {
-//                    viewModel.likeById(post.id)
-//                }
-//
-//                share.setOnClickListener {
-//                    val intent = Intent().apply {
-//                        action = Intent.ACTION_SEND
-//                        putExtra(Intent.EXTRA_TEXT, post.content)
-//                        type = "text/plain"
-//                    }
-//                    val shareIntent =
-//                        Intent.createChooser(intent, getString(R.string.chooser_share_post))
-//                    startActivity(shareIntent)
-//                    viewModel.shareById(post.id)
-//                }
-//
-//                menu.setOnClickListener {
-//                    PopupMenu(it.context, it).apply {
-//                        inflate(R.menu.options_post)
-//                        setOnMenuItemClickListener { item ->
-//                            when (item.itemId) {
-//                                R.id.remove -> {
-//                                    viewModel.removeById(post.id)
-//                                    findNavController().navigateUp()
-//                                    true
-//                                }
-//
-//                                R.id.edit -> {
-//                                    viewModel.edit(post)
-//                                    true
-//                                }
-//
-//                                else -> false
-//                            }
-//                        }
-//                    }.show()
-//                }
-//            }
-//        }
-
         viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id != 0L) {
                 findNavController().navigate(R.id.action_postFragment_to_newPostFragment, Bundle().apply { textArg = post.content })
