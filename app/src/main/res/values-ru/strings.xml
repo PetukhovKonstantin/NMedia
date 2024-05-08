@@ -26,4 +26,5 @@
     <string name="error_loading">Что-то пошло не так. Попробуйте позже</string>
     <string name="retry_loading">Повторить</string>
     <string name="empty_posts">Сообщений нет. \nЕсли вы создадите новое сообщение, оно появится здесь</string>
+    <string name="image_attachment">Прикрепленное изображение</string>
 </resources>
