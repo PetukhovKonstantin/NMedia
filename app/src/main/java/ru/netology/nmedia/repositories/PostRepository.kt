@@ -11,7 +11,7 @@ interface PostRepository {
     fun getDraft(idUser: Long): String?
 
     fun getAllAsync(callback: GetAllCallback)
-    fun likeByIdAsync(id: Long, callback: CallbackWithOutArgs)
+    fun likeByIdAsync(id: Long, likedByMe: Boolean, callback: CallbackWithOutArgs)
     fun removeByIdAsync(id: Long, callback: CallbackWithOutArgs)
     fun saveAsync(post: Post, callback: CallbackWithOutArgs)
 

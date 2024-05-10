@@ -78,7 +78,7 @@ class PostRepositoryFilesImpl(private val context: Context) : PostRepository {
         TODO("Not yet implemented")
     }
 
-    override fun likeByIdAsync(id: Long, callback: PostRepository.CallbackWithOutArgs) {
+    override fun likeByIdAsync(id: Long, likeByMe: Boolean, callback: PostRepository.CallbackWithOutArgs) {
         TODO("Not yet implemented")
     }
 

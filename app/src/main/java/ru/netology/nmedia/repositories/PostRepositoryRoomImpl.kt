@@ -39,7 +39,7 @@ class PostRepositoryRoomImpl(
         TODO("Not yet implemented")
     }
 
-    override fun likeByIdAsync(id: Long, callback: PostRepository.CallbackWithOutArgs) {
+    override fun likeByIdAsync(id: Long, likeByMe: Boolean, callback: PostRepository.CallbackWithOutArgs) {
         TODO("Not yet implemented")
     }
 

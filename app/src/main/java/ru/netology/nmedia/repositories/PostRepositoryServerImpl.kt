@@ -87,22 +87,19 @@ class PostRepositoryServerImpl : PostRepository {
         }
     }
 
-    override fun likeByIdAsync(id: Long, callback: PostRepository.CallbackWithOutArgs) {
-        val post = getAll().firstOrNull {it.id == id}
-        if (post != null) {
-            val request: Request = if (!post.likedByMe) {
-                Request.Builder()
-                    .post(gson.toJson(null).toRequestBody(jsonType))
-                    .url("${BASE_URL}/api/posts/$id/likes")
-                    .build()
-            } else {
-                Request.Builder()
-                    .delete()
-                    .url("${BASE_URL}/api/posts/$id/likes")
-                    .build()
-            }
-            callRequestWithOutArgs(request, callback);
+    override fun likeByIdAsync(id: Long, likedByMe: Boolean, callback: PostRepository.CallbackWithOutArgs) {
+        val request: Request = if (!likedByMe) {
+            Request.Builder()
+                .post(gson.toJson(null).toRequestBody(jsonType))
+                .url("${BASE_URL}/api/posts/$id/likes")
+                .build()
+        } else {
+            Request.Builder()
+                .delete()
+                .url("${BASE_URL}/api/posts/$id/likes")
+                .build()
         }
+        callRequestWithOutArgs(request, callback);
     }
 
     override fun shareById(id: Long) {
