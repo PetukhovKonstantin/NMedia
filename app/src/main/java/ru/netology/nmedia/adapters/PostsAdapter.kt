@@ -11,8 +11,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import ru.netology.nmedia.BuildConfig
 import ru.netology.nmedia.R
-import ru.netology.nmedia.config.AppConfig
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.services.PostService
@@ -56,7 +56,7 @@ class PostViewHolder(
             groupVideo.visibility = if (post.video.isNullOrEmpty()) View.GONE else View.VISIBLE
 
             Glide.with(avatar)
-                .load("${AppConfig.BASE_URL}/avatars/${post.authorAvatar}")
+                .load("${BuildConfig.BASE_URL}/avatars/${post.authorAvatar}")
                 .placeholder(R.drawable.ic_loading_100dp)
                 .error(R.drawable.ic_error_100dp)
                 .timeout(10_000)
@@ -66,7 +66,7 @@ class PostViewHolder(
             imageAttachment.visibility = if (post.attachment?.url.isNullOrEmpty()) View.GONE else View.VISIBLE
             if (imageAttachment.visibility == View.VISIBLE) {
                 Glide.with(imageAttachment)
-                    .load("${AppConfig.BASE_URL}/images/${post.attachment?.url}")
+                    .load("${BuildConfig.BASE_URL}/images/${post.attachment?.url}")
                     .placeholder(R.drawable.ic_loading_100dp)
                     .error(R.drawable.ic_error_100dp)
                     .timeout(10_000)

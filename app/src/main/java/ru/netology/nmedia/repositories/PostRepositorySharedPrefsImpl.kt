@@ -70,21 +70,26 @@ class PostRepositorySharedPrefsImpl(context: Context) : PostRepository {
         TODO("Not yet implemented")
     }
 
-    override fun getAllAsync(callback: PostRepository.GetAllCallback) {
+    override fun getAllAsync(callback: PostRepository.Callback<List<Post>>) {
         TODO("Not yet implemented")
     }
 
-    override fun likeByIdAsync(id: Long, likeByMe: Boolean, callback: PostRepository.CallbackWithOutArgs) {
+    override fun likeByIdAsync(
+        id: Long,
+        likedByMe: Boolean,
+        callback: PostRepository.Callback<Post>
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun removeByIdAsync(id: Long, callback: PostRepository.CallbackWithOutArgs) {
+    override fun removeByIdAsync(id: Long, callback: PostRepository.Callback<Unit>) {
         TODO("Not yet implemented")
     }
 
-    override fun saveAsync(post: Post, callback: PostRepository.CallbackWithOutArgs) {
+    override fun saveAsync(post: Post, callback: PostRepository.Callback<Post>) {
         TODO("Not yet implemented")
     }
+
 
     private fun sync() {
         with(prefs.edit()) {

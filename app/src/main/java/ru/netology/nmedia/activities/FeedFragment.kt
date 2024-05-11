@@ -1,5 +1,6 @@
 package ru.netology.nmedia.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapters.PostActionListener
 import ru.netology.nmedia.adapters.PostsAdapter
@@ -20,9 +22,12 @@ import ru.netology.nmedia.viewmodels.PostViewModel
 
 class FeedFragment : Fragment() {
     private val viewModel: PostViewModel by activityViewModels()//viewModels(ownerProducer = ::requireParentFragment)
+
     companion object {
         var Bundle.textArg: String? by StringArg
     }
+
+    @SuppressLint("ShowToast")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,11 +61,17 @@ class FeedFragment : Fragment() {
             }
 
             override fun onOpenPost(post: Post) {
-                findNavController().navigate(R.id.action_feedFragment_to_postFragment, Bundle().apply { textArg = post.id.toString() })
+                findNavController().navigate(
+                    R.id.action_feedFragment_to_postFragment,
+                    Bundle().apply { textArg = post.id.toString() })
             }
         })
 
-        val postId = if (!arguments?.textArg.isNullOrEmpty()) { arguments?.textArg?.toLongOrNull() ?: 0L } else { 0L }
+        val postId = if (!arguments?.textArg.isNullOrEmpty()) {
+            arguments?.textArg?.toLongOrNull() ?: 0L
+        } else {
+            0L
+        }
 
         binding.list.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner) { state ->
@@ -73,8 +84,18 @@ class FeedFragment : Fragment() {
 
         viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id != 0L) {
-                findNavController().navigate(R.id.action_feedFragment_to_newPostFragment, Bundle().apply { textArg = post.content })
+                findNavController().navigate(
+                    R.id.action_feedFragment_to_newPostFragment,
+                    Bundle().apply { textArg = post.content })
             }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) { e ->
+            Snackbar.make(
+                binding.root,
+                e.message ?: getString(R.string.error_loading),
+                Snackbar.ANIMATION_MODE_SLIDE
+            ).show()
         }
 
         binding.retryButton.setOnClickListener {
