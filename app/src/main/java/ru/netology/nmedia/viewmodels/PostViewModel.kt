@@ -21,7 +21,7 @@ val empty = Post(
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: PostRepository = PostRepositoryServerImpl() //PostRepositoryRoomImpl(AppDb.getInstance(application).postDao) //PostRepositoryFilesImpl(application)
+    private val repository: PostRepository = PostRepositoryServerImpl()
     private val _data = MutableLiveData(FeedModel())
     val data: LiveData<FeedModel>
         get() = _data
@@ -71,10 +71,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         })
     }
 
-    fun shareById(id: Long) {
-        // repository.shareById(id)
-    }
-
     fun removeById(id: Long) {
         _data.postValue(_data.value?.copy(loading = true))
         repository.removeByIdAsync(id, object : PostRepository.Callback<Unit> {
@@ -110,15 +106,5 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
 
     fun edit(post: Post) {
         edited.value = post
-    }
-
-    fun saveDraft(content: String) {
-        //repository.saveDraft(0L, content)
-        TODO("Not yet implemented")
-    }
-
-    fun getDraft(): String?  {
-        //repository.getDraft(0L)
-        TODO("Not yet implemented")
     }
 }

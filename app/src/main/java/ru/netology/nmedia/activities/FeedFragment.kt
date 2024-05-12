@@ -95,7 +95,9 @@ class FeedFragment : Fragment() {
                 binding.root,
                 e.message ?: getString(R.string.error_loading),
                 Snackbar.ANIMATION_MODE_SLIDE
-            ).show()
+            ).setAction(R.string.retry_loading) { viewModel.loadPosts() }
+                .setAnchorView(binding.addPost)
+                .show()
         }
 
         binding.retryButton.setOnClickListener {

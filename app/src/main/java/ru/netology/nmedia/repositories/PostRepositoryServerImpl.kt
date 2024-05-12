@@ -9,10 +9,6 @@ import ru.netology.nmedia.repositories.PostRepository
 
 
 class PostRepositoryServerImpl : PostRepository {
-    override fun getAll(): List<Post>  {
-        TODO("Not yet implemented")
-    }
-
     override fun getAllAsync(callback: PostRepository.Callback<List<Post>>) {
         PostsApi.retrofitService.getAll().enqueue(object : Callback<List<Post>> {
             override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
@@ -35,10 +31,6 @@ class PostRepositoryServerImpl : PostRepository {
         })
     }
 
-    override fun likeById(id: Long) {
-        TODO("Not yet implemented")
-    }
-
     override fun likeByIdAsync(id: Long, likedByMe: Boolean, callback: PostRepository.Callback<Post>) {
             PostsApi.retrofitService
                 .let { if (likedByMe) it.dislikeById(id) else it.likeById(id) }
@@ -58,14 +50,6 @@ class PostRepositoryServerImpl : PostRepository {
                 })
     }
 
-    override fun shareById(id: Long) {
-        TODO("Not yet implemented")
-    }
-
-    override fun removeById(id: Long) {
-        TODO("Not yet implemented")
-    }
-
     override fun removeByIdAsync(id: Long, callback: PostRepository.Callback<Unit>) {
         PostsApi.retrofitService.removeById(id).enqueue(object : Callback<Unit> {
                 override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
@@ -83,10 +67,6 @@ class PostRepositoryServerImpl : PostRepository {
             })
     }
 
-    override fun save(post: Post) {
-        TODO("Not yet implemented")
-    }
-
     override fun saveAsync(post: Post, callback: PostRepository.Callback<Post>) {
         PostsApi.retrofitService.save(post).enqueue(object : Callback<Post> {
                 override fun onResponse(call: Call<Post>, response: Response<Post>) {
@@ -102,13 +82,5 @@ class PostRepositoryServerImpl : PostRepository {
                     callback.onError(Exception(t.message))
                 }
             })
-    }
-
-    override fun saveDraft(idUser: Long, content: String) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getDraft(idUser: Long): String? {
-        TODO("Not yet implemented")
     }
 }
