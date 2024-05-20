@@ -38,11 +38,10 @@ class PostRepositoryServerImpl(private val dao: PostDao) : PostRepository {
             dao.likeById(id)
             val response = PostsApi.retrofitService.likeById(id)
             if (!response.isSuccessful) {
-                dao.likeById(id)
                 throw ApiError(response.code(), response.message())
             }
-
         } catch (e: IOException) {
+            dao.likeById(id)
             throw NetworkError
         } catch (e: Exception) {
             throw UnknownError
