@@ -36,7 +36,9 @@ class FeedFragment : Fragment() {
         val binding = FragmentFeedBinding.inflate(inflater, container, false)
 
         val adapter = PostsAdapter(object : PostActionListener {
-            override fun onLike(post: Post) = viewModel.likeById(post.id)
+            override fun onLike(post: Post) {
+                viewModel.likeById(post.id)
+            }
 
             override fun onShare(post: Post) {
                 val intent = Intent().apply {
@@ -50,9 +52,13 @@ class FeedFragment : Fragment() {
                 //viewModel.shareById(post.id)
             }
 
-            override fun onRemove(post: Post) = viewModel.removeById(post.id)
+            override fun onRemove(post: Post) {
+                viewModel.removeById(post.id)
+            }
 
-            override fun onEdit(post: Post) = viewModel.edit(post)
+            override fun onEdit(post: Post) {
+                viewModel.edit(post)
+            }
 
             override fun onPlayVideo(post: Post) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
@@ -76,32 +82,31 @@ class FeedFragment : Fragment() {
         binding.list.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.posts)
-            binding.progress.isVisible = state.loading
-            binding.swiperefresh.isRefreshing = state.loading
-            binding.errorGroup.isVisible = state.error
             binding.emptyText.isVisible = state.empty
         }
 
-        viewModel.edited.observe(viewLifecycleOwner) { post ->
-            if (post.id != 0L) {
-                findNavController().navigate(
-                    R.id.action_feedFragment_to_newPostFragment,
-                    Bundle().apply { textArg = post.content })
+        viewModel.dataState.observe(viewLifecycleOwner) { state ->
+            binding.progress.isVisible = state.loading
+            binding.swiperefresh.isRefreshing = state.refreshing
+            binding.errorGroup.isVisible = state.error
+            if (state.error) {
+                Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry_loading) { viewModel.loadPosts() }
+                    .show()
             }
         }
 
-        viewModel.error.observe(viewLifecycleOwner) { e ->
-            Snackbar.make(
-                binding.root,
-                e.message ?: getString(R.string.error_loading),
-                Snackbar.ANIMATION_MODE_SLIDE
-            ).setAction(R.string.retry_loading) { viewModel.loadPosts() }
-                .setAnchorView(binding.addPost)
-                .show()
-        }
+//        viewModel.edited.observe(viewLifecycleOwner) { post ->
+//            if (post.id != 0L) {
+//                findNavController().navigate(
+//                    R.id.action_feedFragment_to_newPostFragment,
+//                    Bundle().apply { textArg = post.content })
+//            }
+//        }
+
 
         binding.retryButton.setOnClickListener {
-            viewModel.loadPosts()
+            viewModel.refreshPosts()
         }
 
         binding.addPost.setOnClickListener {
@@ -116,7 +121,7 @@ class FeedFragment : Fragment() {
         }
 
         binding.swiperefresh.setOnRefreshListener {
-            viewModel.loadPosts()
+            viewModel.refreshPosts()
         }
 
         return binding.root

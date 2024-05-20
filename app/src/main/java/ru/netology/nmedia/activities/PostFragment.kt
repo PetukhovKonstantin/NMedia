@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.FragmentPostBinding
 import ru.netology.nmedia.utils.StringArg
 import ru.netology.nmedia.viewmodels.PostViewModel
@@ -26,11 +24,11 @@ class PostFragment : Fragment() {
 
         val postId = if (!arguments?.textArg.isNullOrEmpty()) { arguments?.textArg?.toLongOrNull() ?: 0L } else { 0L }
 
-        viewModel.edited.observe(viewLifecycleOwner) { post ->
-            if (post.id != 0L) {
-                findNavController().navigate(R.id.action_postFragment_to_newPostFragment, Bundle().apply { textArg = post.content })
-            }
-        }
+//        viewModel.edited.observe(viewLifecycleOwner) { post ->
+//            if (post.id != 0L) {
+//                findNavController().navigate(R.id.action_postFragment_to_newPostFragment, Bundle().apply { textArg = post.content })
+//            }
+//        }
 
         return binding.root
     }
